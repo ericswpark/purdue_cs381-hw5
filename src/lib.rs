@@ -30,4 +30,13 @@ mod tests {
         let result = valid_tours(&[1, 1, 5]);
         assert_eq!(result, 4);
     }
+
+
+    #[test]
+    fn test_valid_tours_extra_cases() {
+        assert_eq!(valid_tours(&[0, 0]), 3);
+        assert_eq!(valid_tours(&[0, 0, 0, 0]), 15);
+        assert_eq!(valid_tours(&[1, 1, 1, 1]), 7);
+        assert_eq!(valid_tours(&[1, 1, 1, 1, 1]), 12);
+    }
 }
