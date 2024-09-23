@@ -15,4 +15,3 @@ pub async fn question_two(Json(payload): Json<QuestionTwo>) -> impl IntoResponse
         Err(e) => e.into_response(),
     }
 }
-

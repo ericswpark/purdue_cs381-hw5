@@ -22,6 +22,58 @@ pub fn valid_tours(b: &[u32]) -> u32 {
 }
 
 
+pub fn sand_dunes_merging(cost: &[u32]) -> u32 {
+    // tuple (cost, result)
+    let mut t = vec![vec![(u32::MAX/3, 0); cost.len()]; cost.len()];
+
+    // merging `merge_count` other elements to current dune
+    for merge_count in 0..cost.len() {
+        for (index, dune_size) in cost.iter().enumerate() {
+            if index + merge_count >= cost.len() {
+                break;
+            }
+
+            // Base case - dune alone
+            if merge_count == 0 {
+                t[index][index] = (*dune_size, *dune_size);
+                continue;
+            }
+
+            for sub_merge in 0..merge_count {
+                let mut cost: u32 = 0;
+                let mut left_side = t[index][index+sub_merge];
+                if index + sub_merge != index {
+                    cost += left_side.1;
+                }
+
+                let mut right_side = t[index + sub_merge + 1][index + merge_count];
+                if index + sub_merge + 1 != index + merge_count {
+                    cost += right_side.1;
+                }
+
+                t[index][index + merge_count] =(
+                    min(
+                        t[index][index + merge_count].0,
+                        cost + left_side.0 + right_side.0
+                    ), left_side.1 + right_side.1);
+            }
+        }
+    }
+
+    // for row in t.iter() {
+    //     for col in row.iter() {
+    //         if (*col).0 == u32::MAX / 3 {
+    //             print!("- ");
+    //             continue;
+    //         }
+    //         print!("{} ", col.0);
+    //     }
+    //     println!();
+    // }
+
+    t[0][cost.len() - 1].0
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -32,12 +84,20 @@ mod tests {
         assert_eq!(result, 4);
     }
 
-
     #[test]
     fn test_valid_tours_extra_cases() {
         assert_eq!(valid_tours(&[0, 0]), 3);
         assert_eq!(valid_tours(&[0, 0, 0, 0]), 15);
         assert_eq!(valid_tours(&[1, 1, 1, 1]), 7);
         assert_eq!(valid_tours(&[1, 1, 1, 1, 1]), 12);
+    }
+
+    #[test]
+    fn test_sand_dunes_merging() {
+        assert_eq!(sand_dunes_merging(&[1, 1]), 2);
+        assert_eq!(sand_dunes_merging(&[1, 1, 1]), 5);
+        assert_eq!(sand_dunes_merging(&[3, 5, 1]), 15);
+        assert_eq!(sand_dunes_merging(&[1, 1, 1, 1]), 8);
+        assert_eq!(sand_dunes_merging(&[10, 1, 1, 10]), 36);
     }
 }
