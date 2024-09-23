@@ -32,6 +32,10 @@ struct DuneMerge {
 }
 
 pub fn sand_dunes_merging(cost: &[u32]) -> u32 {
+    if cost.len() == 0 {
+        return 0;
+    }
+
     let mut t = vec![
         vec![
             DuneMerge {
