@@ -21,10 +21,23 @@ pub fn valid_tours(b: &[u32]) -> u32 {
     t.iter().sum()
 }
 
+#[derive(Clone)]
+struct DuneMerge {
+    cost: u32,
+    new_dune_size: u32,
+}
 
 pub fn sand_dunes_merging(cost: &[u32]) -> u32 {
-    // tuple (cost, result)
-    let mut t = vec![vec![(u32::MAX/3, 0); cost.len()]; cost.len()];
+    let mut t = vec![
+        vec![
+            DuneMerge {
+                cost: u32::MAX / 3,
+                new_dune_size: 0
+            };
+            cost.len()
+        ];
+        cost.len()
+    ];
 
     // merging `merge_count` other elements to current dune
     for merge_count in 0..cost.len() {
@@ -35,27 +48,32 @@ pub fn sand_dunes_merging(cost: &[u32]) -> u32 {
 
             // Base case - dune alone
             if merge_count == 0 {
-                t[index][index] = (*dune_size, *dune_size);
+                t[index][index].cost = *dune_size;
+                t[index][index].new_dune_size = *dune_size;
                 continue;
             }
 
             for sub_merge in 0..merge_count {
                 let mut cost: u32 = 0;
-                let mut left_side = t[index][index+sub_merge];
+                let left_side_cost = t[index][index + sub_merge].cost;
+                let left_side_new_dune_size = t[index][index + sub_merge].new_dune_size;
                 if index + sub_merge != index {
-                    cost += left_side.1;
+                    cost += left_side_new_dune_size;
                 }
 
-                let mut right_side = t[index + sub_merge + 1][index + merge_count];
+                let right_side_cost = t[index + sub_merge + 1][index + merge_count].cost;
+                let right_side_new_dune_size =
+                    t[index + sub_merge + 1][index + merge_count].new_dune_size;
                 if index + sub_merge + 1 != index + merge_count {
-                    cost += right_side.1;
+                    cost += right_side_new_dune_size;
                 }
 
-                t[index][index + merge_count] =(
-                    min(
-                        t[index][index + merge_count].0,
-                        cost + left_side.0 + right_side.0
-                    ), left_side.1 + right_side.1);
+                t[index][index + merge_count].cost = min(
+                    t[index][index + merge_count].cost,
+                    cost + left_side_cost + right_side_cost,
+                );
+                t[index][index + merge_count].new_dune_size =
+                    left_side_new_dune_size + right_side_new_dune_size;
             }
         }
     }
@@ -71,7 +89,7 @@ pub fn sand_dunes_merging(cost: &[u32]) -> u32 {
     //     println!();
     // }
 
-    t[0][cost.len() - 1].0
+    t[0][cost.len() - 1].cost
 }
 
 #[cfg(test)]
