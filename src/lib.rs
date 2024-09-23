@@ -35,7 +35,7 @@ pub fn sand_dunes_merging(cost: &[u32]) -> u32 {
     let mut t = vec![
         vec![
             DuneMerge {
-                cost: u32::MAX / 3,
+                cost: u32::MAX,
                 new_dune_size: 0
             };
             cost.len()
@@ -62,22 +62,22 @@ pub fn sand_dunes_merging(cost: &[u32]) -> u32 {
                 let left_side_cost = t[index][index + sub_merge].cost;
                 let left_side_new_dune_size = t[index][index + sub_merge].new_dune_size;
                 if index + sub_merge != index {
-                    cost += left_side_new_dune_size;
+                    cost = cost.saturating_add(left_side_cost);
                 }
 
                 let right_side_cost = t[index + sub_merge + 1][index + merge_count].cost;
                 let right_side_new_dune_size =
                     t[index + sub_merge + 1][index + merge_count].new_dune_size;
                 if index + sub_merge + 1 != index + merge_count {
-                    cost += right_side_new_dune_size;
+                    cost = cost.saturating_add(right_side_new_dune_size);
                 }
 
                 t[index][index + merge_count].cost = min(
                     t[index][index + merge_count].cost,
-                    cost + left_side_cost + right_side_cost,
+                    cost.saturating_add(left_side_cost).saturating_add(right_side_cost),
                 );
                 t[index][index + merge_count].new_dune_size =
-                    left_side_new_dune_size + right_side_new_dune_size;
+                    left_side_new_dune_size.saturating_add(right_side_new_dune_size);
             }
         }
     }
