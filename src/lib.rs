@@ -1,10 +1,13 @@
+use std::cmp::min;
+
 pub fn valid_tours(b: &[u32]) -> u32 {
     let mut t = Vec::new();
 
     for (day, _rest_days_needed) in b.iter().enumerate() {
         t.push(1);
 
-        if day == 0 {   // Base case
+        if day == 0 {
+            // Base case
             continue;
         }
 
