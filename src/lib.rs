@@ -78,17 +78,6 @@ pub fn sand_dunes_merging(cost: &[u32]) -> u32 {
         }
     }
 
-    // for row in t.iter() {
-    //     for col in row.iter() {
-    //         if (*col).0 == u32::MAX / 3 {
-    //             print!("- ");
-    //             continue;
-    //         }
-    //         print!("{} ", col.0);
-    //     }
-    //     println!();
-    // }
-
     t[0][cost.len() - 1].cost
 }
 
