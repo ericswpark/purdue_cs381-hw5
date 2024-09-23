@@ -12,6 +12,7 @@ use tower_http::trace::TraceLayer;
 async fn main() {
     let app = Router::new()
         .route("/2", post(question_two))
+        .route("/3", post(question_three))
         .layer(CorsLayer::permissive())
         .layer(TraceLayer::new_for_http());
 
