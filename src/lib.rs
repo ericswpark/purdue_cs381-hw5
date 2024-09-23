@@ -1,6 +1,10 @@
 use std::cmp::min;
 
 pub fn valid_tours(b: &[u32]) -> u32 {
+    if b.len() == 0 {
+        return 0;
+    }
+
     let mut t = Vec::new();
 
     for (day, _rest_days_needed) in b.iter().enumerate() {
