@@ -66,7 +66,8 @@ pub fn sand_dunes_merging(cost: &[u32]) -> u32 {
                 let left_side_start_index = index;
                 let left_side_end_index = index + sub_merge;
                 let left_side_cost = t[left_side_start_index][left_side_end_index].cost;
-                let left_side_new_dune_size = t[left_side_start_index][left_side_end_index].new_dune_size;
+                let left_side_new_dune_size =
+                    t[left_side_start_index][left_side_end_index].new_dune_size;
                 if left_side_start_index != left_side_end_index {
                     cost = cost.saturating_add(left_side_new_dune_size);
                 }
@@ -82,7 +83,8 @@ pub fn sand_dunes_merging(cost: &[u32]) -> u32 {
 
                 t[left_side_start_index][right_side_end_index].cost = min(
                     t[index][index + merge_count].cost,
-                    cost.saturating_add(left_side_cost).saturating_add(right_side_cost),
+                    cost.saturating_add(left_side_cost)
+                        .saturating_add(right_side_cost),
                 );
                 t[left_side_start_index][right_side_end_index].new_dune_size =
                     left_side_new_dune_size.saturating_add(right_side_new_dune_size);
@@ -92,7 +94,6 @@ pub fn sand_dunes_merging(cost: &[u32]) -> u32 {
 
     t[0][cost.len() - 1].cost
 }
-
 
 pub fn greedy_sand_dune_merging(cost: &[u32]) -> u32 {
     let mut merged = cost.to_vec();
