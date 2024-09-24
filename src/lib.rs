@@ -122,11 +122,20 @@ pub fn greedy_sand_dune_merging(cost: &[u32]) -> u32 {
     cost
 }
 
-fn get_line(word_list: &[&str], start_index: usize, end_index: usize) -> String {
-    word_list[start_index..=end_index].join(" ")
+fn get_line<T: AsRef<str>>(word_list: &[T], start_index: usize, end_index: usize) -> String {
+    word_list[start_index..=end_index]
+        .iter()
+        .map(|item| item.as_ref())
+        .collect::<Vec<&str>>()
+        .join(" ")
 }
 
-fn calculate_penalty(word_list: &[&str], start_index: usize, end_index: usize, limit: u32) -> u32 {
+fn calculate_penalty<T: AsRef<str>>(
+    word_list: &[T],
+    start_index: usize,
+    end_index: usize,
+    limit: u32,
+) -> u32 {
     let line = get_line(word_list, start_index, end_index);
     let diff_count = (line.len() as u32).abs_diff(limit);
     let penalty = diff_count.pow(2);
@@ -138,7 +147,7 @@ fn calculate_penalty(word_list: &[&str], start_index: usize, end_index: usize, l
     penalty
 }
 
-pub fn word_wrapper(a: &[&str], m: u32) -> u32 {
+pub fn word_wrapper<T: AsRef<str>>(a: &[T], m: u32) -> u32 {
     let mut t: Vec<u32> = Vec::new();
 
     for index in (0..a.len()).rev() {
