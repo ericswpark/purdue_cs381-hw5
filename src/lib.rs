@@ -1,7 +1,7 @@
 use std::cmp::min;
 
 pub fn valid_tours(b: &[u32]) -> u32 {
-    if b.len() == 0 {
+    if b.is_empty() {
         return 0;
     }
 
@@ -32,7 +32,7 @@ struct DuneMerge {
 }
 
 pub fn sand_dunes_merging(cost: &[u32]) -> u32 {
-    if cost.len() == 0 {
+    if cost.is_empty() {
         return 0;
     }
 
@@ -105,11 +105,9 @@ pub fn greedy_sand_dune_merging(cost: &[u32]) -> u32 {
 
         // Find smallest two items
         for (index, dune) in merged.iter().enumerate() {
-            if index + 1 < merged.len() {
-                if dune + merged[index + 1] < consecutive_sum {
-                    min_index = index;
-                    consecutive_sum = dune + merged[index + 1];
-                }
+            if index + 1 < merged.len() && dune + merged[index + 1] < consecutive_sum {
+                min_index = index;
+                consecutive_sum = dune + merged[index + 1];
             }
         }
 
