@@ -93,6 +93,34 @@ pub fn sand_dunes_merging(cost: &[u32]) -> u32 {
     t[0][cost.len() - 1].cost
 }
 
+
+pub fn greedy_sand_dune_merging(cost: &[u32]) -> u32 {
+    let mut merged = cost.to_vec();
+    let mut cost = 0;
+
+    while merged.len() > 1 {
+        let mut consecutive_sum = u32::MAX;
+        let mut min_index = 0;
+
+        // Find smallest two items
+        for (index, dune) in merged.iter().enumerate() {
+            if index + 1 < merged.len() {
+                if dune + merged[index + 1] < consecutive_sum {
+                    min_index = index;
+                    consecutive_sum = dune + merged[index + 1];
+                }
+            }
+        }
+
+        // Merge
+        merged[min_index] = consecutive_sum;
+        merged.remove(min_index + 1);
+        cost += consecutive_sum;
+    }
+
+    cost
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -123,5 +151,14 @@ mod tests {
     #[test]
     fn test_sand_dunes_merging_meet_patel() {
         assert_eq!(sand_dunes_merging(&[4, 8, 6, 3, 1, 9]), 76);
+    }
+
+    #[test]
+    fn test_greedy_sand_dunes_merging() {
+        assert_eq!(greedy_sand_dune_merging(&[1, 1]), 2);
+        assert_eq!(greedy_sand_dune_merging(&[1, 1, 1]), 5);
+        assert_eq!(greedy_sand_dune_merging(&[3, 5, 1]), 15);
+        assert_eq!(greedy_sand_dune_merging(&[1, 1, 1, 1]), 8);
+        assert_eq!(greedy_sand_dune_merging(&[10, 1, 1, 10]), 36);
     }
 }

@@ -13,6 +13,8 @@ async fn main() {
     let app = Router::new()
         .route("/2", post(question_two))
         .route("/3", post(question_three))
+        .route("/3a", post(question_three))
+        .route("/3b", post(question_three_b))
         .layer(CorsLayer::permissive())
         .layer(TraceLayer::new_for_http());
 
