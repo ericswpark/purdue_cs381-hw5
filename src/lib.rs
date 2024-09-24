@@ -137,11 +137,7 @@ fn calculate_penalty<T: AsRef<str>>(
     let line = get_line(word_list, start_index, end_index);
     let diff_count = (line.len() as u32).abs_diff(limit);
     let penalty = diff_count.pow(2);
-
-    println!(
-        "Line: {}, difference count: {}, penalty: {}",
-        line, diff_count, penalty
-    );
+    
     penalty
 }
 
@@ -166,8 +162,6 @@ pub fn word_wrapper<T: AsRef<str>>(a: &[T], m: u32) -> u32 {
         }
         t.insert(0, penalty);
     }
-
-    println!("{:?}", t);
 
     t[0]
 }
