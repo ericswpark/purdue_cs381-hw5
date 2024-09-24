@@ -19,3 +19,14 @@ pub struct QuestionThree {
 pub struct QuestionThreeAnswer {
     pub(crate) answer: u32,
 }
+
+#[derive(Deserialize)]
+pub struct QuestionFour {
+    pub(crate) a: Vec<String>,
+    pub(crate) m: u32,
+}
+
+#[derive(Serialize)]
+pub struct QuestionFourAnswer {
+    pub(crate) answer: u32,
+}

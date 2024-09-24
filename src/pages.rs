@@ -41,3 +41,14 @@ pub async fn question_three_b(Json(payload): Json<QuestionThree>) -> impl IntoRe
         Err(e) => e.into_response(),
     }
 }
+
+fn do_question_four(a: Vec<String>, m: u32) -> Result<u32, ()> {
+    let result = word_wrapper(&a, m);
+    Ok(result)
+}
+pub async fn question_four(Json(payload): Json<QuestionFour>) -> impl IntoResponse {
+    match do_question_four(payload.a, payload.m) {
+        Ok(result) => (StatusCode::OK, Json(QuestionFourAnswer { answer: result })).into_response(),
+        Err(e) => e.into_response(),
+    }
+}
