@@ -161,4 +161,10 @@ mod tests {
         assert_eq!(greedy_sand_dune_merging(&[1, 1, 1, 1]), 8);
         assert_eq!(greedy_sand_dune_merging(&[10, 1, 1, 10]), 36);
     }
+
+    #[test]
+    fn test_different_merge_strategy() {
+        assert_eq!(sand_dunes_merging(&[4, 8, 2, 8]), 44);
+        assert_eq!(greedy_sand_dune_merging(&[4, 8, 2, 8]), 46);
+    }
 }
