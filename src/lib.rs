@@ -122,6 +122,49 @@ pub fn greedy_sand_dune_merging(cost: &[u32]) -> u32 {
     cost
 }
 
+fn get_line(word_list: &[&str], start_index: usize, end_index: usize) -> String {
+    word_list[start_index..=end_index].join(" ")
+}
+
+fn calculate_penalty(word_list: &[&str], start_index: usize, end_index: usize, limit: u32) -> u32 {
+    let line = get_line(word_list, start_index, end_index);
+    let diff_count = (line.len() as u32).abs_diff(limit);
+    let penalty = diff_count.pow(2);
+
+    println!(
+        "Line: {}, difference count: {}, penalty: {}",
+        line, diff_count, penalty
+    );
+    penalty
+}
+
+pub fn word_wrapper(a: &[&str], m: u32) -> u32 {
+    let mut t: Vec<u32> = Vec::new();
+
+    for index in (0..a.len()).rev() {
+        // Base case - last line
+        if get_line(a, index, a.len() - 1).len() < m as usize {
+            t.insert(0, 0);
+            continue;
+        }
+
+        let mut penalty = calculate_penalty(a, index, index, m);
+
+        for next_line_word_index in index + 1..a.len() - 1 {
+            penalty = min(
+                penalty,
+                calculate_penalty(a, index, next_line_word_index, m)
+                    + t[next_line_word_index - index],
+            );
+        }
+        t.insert(0, penalty);
+    }
+
+    println!("{:?}", t);
+
+    t[0]
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -167,5 +210,33 @@ mod tests {
     fn test_different_merge_strategy() {
         assert_eq!(sand_dunes_merging(&[4, 8, 2, 8]), 44);
         assert_eq!(greedy_sand_dune_merging(&[4, 8, 2, 8]), 46);
+    }
+
+    #[test]
+    fn test_word_wrapper_handout() {
+        assert_eq!(
+            word_wrapper(
+                &[
+                    "Check",
+                    "out",
+                    "these",
+                    "9",
+                    "hilarious",
+                    "things",
+                    "Purdue",
+                    "Pete",
+                    "was",
+                    "caught",
+                    "doing.",
+                    "I",
+                    "couldn't",
+                    "believe",
+                    "number",
+                    "5!"
+                ],
+                16
+            ),
+            3
+        )
     }
 }
