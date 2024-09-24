@@ -30,7 +30,7 @@ pub async fn question_three(Json(payload): Json<QuestionThree>) -> impl IntoResp
 }
 
 fn do_question_three_b(c: Vec<u32>) -> Result<u32, ()> {
-    let result = sand_dunes_merging(&c);
+    let result = greedy_sand_dune_merging(&c);
     Ok(result)
 }
 pub async fn question_three_b(Json(payload): Json<QuestionThree>) -> impl IntoResponse {
