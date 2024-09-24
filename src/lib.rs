@@ -68,7 +68,7 @@ pub fn sand_dunes_merging(cost: &[u32]) -> u32 {
                 let left_side_cost = t[left_side_start_index][left_side_end_index].cost;
                 let left_side_new_dune_size = t[left_side_start_index][left_side_end_index].new_dune_size;
                 if left_side_start_index != left_side_end_index {
-                    cost = cost.saturating_add(left_side_cost);
+                    cost = cost.saturating_add(left_side_new_dune_size);
                 }
 
                 let right_side_start_index = index + sub_merge + 1;
