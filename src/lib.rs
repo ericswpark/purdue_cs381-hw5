@@ -119,4 +119,9 @@ mod tests {
         assert_eq!(sand_dunes_merging(&[1, 1, 1, 1]), 8);
         assert_eq!(sand_dunes_merging(&[10, 1, 1, 10]), 36);
     }
+
+    #[test]
+    fn test_sand_dunes_merging_meet_patel() {
+        assert_eq!(sand_dunes_merging(&[4, 8, 6, 3, 1, 9]), 76);
+    }
 }
