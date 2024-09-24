@@ -248,4 +248,9 @@ mod tests {
             3
         )
     }
+
+    #[test]
+    fn test_word_wrapper_extra_cases() {
+        assert_eq!(word_wrapper(&["number", "5!"], 16), 0);
+    }
 }
