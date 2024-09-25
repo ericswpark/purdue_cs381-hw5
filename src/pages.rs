@@ -32,7 +32,24 @@ pub async fn question_three_a(Json(payload): Json<QuestionThree>) -> impl IntoRe
 fn do_question_three_a_corrected(
     sand_dunes: Vec<u32>,
     cost: Vec<Vec<Vec<u32>>>,
-) -> Result<u32, ()> {
+) -> Result<u32, QuestionThreeError> {
+    // Check dimensions of array
+    if cost.len() < sand_dunes.len() {
+        return Err(QuestionThreeError::CostArrayDimensionsIncorrect);
+    }
+    
+    for i in cost.iter() {
+        if i.len() < sand_dunes.len() {
+            return Err(QuestionThreeError::CostArrayDimensionsIncorrect);
+        }
+        
+        for j in i.iter() {
+            if j.len() < sand_dunes.len() {
+                return Err(QuestionThreeError::CostArrayDimensionsIncorrect);
+            }
+        }
+    }
+
     let result = sand_dunes_arbitrary_cost_merging(&sand_dunes, &cost);
     Ok(result)
 }

@@ -1,4 +1,8 @@
+use axum::http::StatusCode;
+use axum::Json;
+use axum::response::{IntoResponse, Response};
 use serde::{Deserialize, Serialize};
+use thiserror::Error;
 
 #[derive(Deserialize)]
 pub struct QuestionTwo {
@@ -24,6 +28,21 @@ pub struct QuestionThreeAnswer {
 pub struct QuestionThreeCorrected {
     pub(crate) sand_dunes: Vec<u32>,
     pub(crate) cost: Vec<Vec<Vec<u32>>>,
+}
+
+#[derive(Error, Debug)]
+pub enum QuestionThreeError {
+    #[error("Cost array dimensions are wrong!")]
+    CostArrayDimensionsIncorrect,
+}
+
+impl IntoResponse for QuestionThreeError {
+    fn into_response(self) -> Response {
+        let (status, body) = match self {
+            QuestionThreeError::CostArrayDimensionsIncorrect => (StatusCode::BAD_REQUEST, self.to_string()),
+        };
+        (status, Json(serde_json::json!({ "error": body }))).into_response()
+    }
 }
 
 #[derive(Deserialize)]
