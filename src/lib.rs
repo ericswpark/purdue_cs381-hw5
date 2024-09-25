@@ -175,9 +175,8 @@ fn calculate_penalty<T: AsRef<str>>(
 ) -> u32 {
     let line = get_line(word_list, start_index, end_index);
     let diff_count = (line.len() as u32).abs_diff(limit);
-    let penalty = diff_count.pow(2);
     
-    penalty
+    diff_count.pow(2)
 }
 
 pub fn word_wrapper<T: AsRef<str>>(a: &[T], m: u32) -> u32 {
