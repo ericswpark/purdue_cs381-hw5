@@ -29,6 +29,25 @@ pub async fn question_three_a(Json(payload): Json<QuestionThree>) -> impl IntoRe
     }
 }
 
+fn do_question_three_a_corrected(
+    sand_dunes: Vec<u32>,
+    cost: Vec<Vec<Vec<u32>>>,
+) -> Result<u32, ()> {
+    let result = sand_dunes_arbitrary_cost_merging(&sand_dunes, &cost);
+    Ok(result)
+}
+
+pub async fn question_three_a_corrected(
+    Json(payload): Json<QuestionThreeCorrected>,
+) -> impl IntoResponse {
+    match do_question_three_a_corrected(payload.sand_dunes, payload.cost) {
+        Ok(result) => {
+            (StatusCode::OK, Json(QuestionThreeAnswer { answer: result })).into_response()
+        }
+        Err(e) => e.into_response(),
+    }
+}
+
 fn do_question_three_b(c: Vec<u32>) -> Result<u32, ()> {
     let result = greedy_sand_dune_merging(&c);
     Ok(result)

@@ -21,6 +21,12 @@ pub struct QuestionThreeAnswer {
 }
 
 #[derive(Deserialize)]
+pub struct QuestionThreeCorrected {
+    pub(crate) sand_dunes: Vec<u32>,
+    pub(crate) cost: Vec<Vec<Vec<u32>>>,
+}
+
+#[derive(Deserialize)]
 pub struct QuestionFour {
     pub(crate) a: Vec<String>,
     pub(crate) m: u32,

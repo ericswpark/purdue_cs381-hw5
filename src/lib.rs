@@ -95,6 +95,45 @@ pub fn sand_dunes_merging(cost: &[u32]) -> u32 {
     t[0][cost.len() - 1].cost
 }
 
+pub fn sand_dunes_arbitrary_cost_merging(sand_dunes: &[u32], cost: &[Vec<Vec<u32>>]) -> u32 {
+    if sand_dunes.is_empty() {
+        return 0;
+    }
+
+    let mut t = vec![vec![u32::MAX; sand_dunes.len()]; sand_dunes.len()];
+
+    // merging `merge_count` other elements to current dune
+    for merge_count in 0..sand_dunes.len() {
+        for (index, _) in sand_dunes.iter().enumerate() {
+            if index + merge_count >= sand_dunes.len() {
+                break;
+            }
+
+            // Base case - dune alone
+            if merge_count == 0 {
+                t[index][index] = cost[index][index][index];
+                continue;
+            }
+
+            for sub_merge in 0..merge_count {
+                let left_side_start_index = index;
+                let left_side_end_index = left_side_start_index + sub_merge;
+                let right_side_start_index = left_side_end_index + 1;
+                let right_side_end_index = index + merge_count;
+
+                t[left_side_start_index][right_side_end_index] = min(
+                    t[index][index + merge_count],
+                    t[left_side_start_index][left_side_end_index]
+                        + t[right_side_start_index][right_side_end_index]
+                        + cost[left_side_start_index][left_side_end_index][right_side_end_index],
+                );
+            }
+        }
+    }
+
+    t[0][sand_dunes.len() - 1]
+}
+
 pub fn greedy_sand_dune_merging(cost: &[u32]) -> u32 {
     let mut merged = cost.to_vec();
     let mut cost = 0;

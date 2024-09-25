@@ -13,6 +13,7 @@ async fn main() {
     let app = Router::new()
         .route("/2", post(question_two))
         .route("/3a", post(question_three_a))
+        .route("/3a_c", post(question_three_a_corrected))
         .route("/3b", post(question_three_b))
         .route("/4", post(question_four))
         .layer(CorsLayer::permissive())
