@@ -1,6 +1,6 @@
 use axum::http::StatusCode;
-use axum::Json;
 use axum::response::{IntoResponse, Response};
+use axum::Json;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
@@ -39,7 +39,9 @@ pub enum QuestionThreeError {
 impl IntoResponse for QuestionThreeError {
     fn into_response(self) -> Response {
         let (status, body) = match self {
-            QuestionThreeError::CostArrayDimensionsIncorrect => (StatusCode::BAD_REQUEST, self.to_string()),
+            QuestionThreeError::CostArrayDimensionsIncorrect => {
+                (StatusCode::BAD_REQUEST, self.to_string())
+            }
         };
         (status, Json(serde_json::json!({ "error": body }))).into_response()
     }

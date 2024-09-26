@@ -37,12 +37,12 @@ fn do_question_three_a_corrected(
     if cost.len() < sand_dunes.len() {
         return Err(QuestionThreeError::CostArrayDimensionsIncorrect);
     }
-    
+
     for i in cost.iter() {
         if i.len() < sand_dunes.len() {
             return Err(QuestionThreeError::CostArrayDimensionsIncorrect);
         }
-        
+
         for j in i.iter() {
             if j.len() < sand_dunes.len() {
                 return Err(QuestionThreeError::CostArrayDimensionsIncorrect);
