@@ -95,7 +95,7 @@ pub fn sand_dunes_merging(cost: &[u32]) -> u32 {
     t[0][cost.len() - 1].cost
 }
 
-pub fn sand_dunes_arbitrary_cost_merging(sand_dunes: &[u32], cost: &[Vec<Vec<u32>>]) -> u32 {
+pub fn sand_dunes_arbitrary_cost_merging(sand_dunes: &[u32], cost: &[&[&[u32]]]) -> u32 {
     if sand_dunes.is_empty() {
         return 0;
     }

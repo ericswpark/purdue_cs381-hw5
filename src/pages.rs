@@ -50,7 +50,16 @@ fn do_question_three_a_corrected(
         }
     }
 
-    let result = sand_dunes_arbitrary_cost_merging(&sand_dunes, &cost);
+    let inner_sliced_cost: Vec<Vec<&[u32]>> = cost
+        .iter()
+        .map(|v_o| v_o.iter().map(|v_i| v_i.as_slice()).collect::<Vec<_>>())
+        .collect::<Vec<_>>();
+    let sliced_cost: Vec<&[&[u32]]> = inner_sliced_cost
+        .iter()
+        .map(|v| v.as_slice())
+        .collect::<Vec<_>>();
+
+    let result = sand_dunes_arbitrary_cost_merging(&sand_dunes, &sliced_cost);
     Ok(result)
 }
 
