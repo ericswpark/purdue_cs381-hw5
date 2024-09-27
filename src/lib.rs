@@ -189,7 +189,9 @@ pub fn word_wrapper<T: AsRef<str>>(a: &[T], m: u32) -> u32 {
             continue;
         }
 
-        let mut penalty = calculate_penalty(a, index, index, m);
+        // Start with the penalty of having just this word on a single line,
+        // with the best case penalty for the following lines
+        let mut penalty = calculate_penalty(a, index, index, m) + t[0];
 
         for next_line_word_index in index + 1..a.len() - 1 {
             penalty = min(
