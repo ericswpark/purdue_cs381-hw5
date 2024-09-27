@@ -184,7 +184,7 @@ pub fn word_wrapper<T: AsRef<str>>(a: &[T], m: u32) -> u32 {
 
     for index in (0..a.len()).rev() {
         // Base case - last line
-        if get_line(a, index, a.len() - 1).len() < m as usize {
+        if get_line(a, index, a.len() - 1).len() <= m as usize {
             t.insert(0, 0);
             continue;
         }
