@@ -283,4 +283,12 @@ mod tests {
     fn test_word_wrapper_extra_cases() {
         assert_eq!(word_wrapper(&["number", "5!"], 16), 0);
     }
+
+    #[test]
+    fn test_word_wrapper_ed_post() {
+        assert_eq!(word_wrapper(&["dddd", "eeee"], 4), 0);
+        assert_eq!(word_wrapper(&["cc", "dddd", "eeee"], 4), 4);
+        assert_eq!(word_wrapper(&["bbbb", "cc", "dddd", "eeee"], 4), 4);
+        assert_eq!(word_wrapper(&["aa", "bbbb", "cc", "dddd", "eeee"], 4), 8);
+    }
 }
